@@ -1,0 +1,12 @@
+import os
+
+os.chdir('C:\\Users\\ścieżka folderu')
+
+for f in os.listdir():
+    file_name, file_ext = os.path.splitext(f)   
+
+    f_1slowo, f_2slowo, f_3slowo = file_name.split(' ')
+
+    new_name = (f_1slowo + ' czerwiec ' + f_3slowo + file_ext)
+
+    os.rename(f, new_name)
