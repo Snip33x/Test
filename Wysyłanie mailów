@@ -1,0 +1,47 @@
+import os
+import smtplib
+import myEnvVal
+from email.message import EmailMessage
+import imghdr
+myEnvVal.setVar()
+EMAIL_ADDRESS = os.environ.get('EMAIL_USER')
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+
+
+
+s ='miesiąc' 
+
+
+def send_mail(to,zal):
+    msg = EmailMessage()
+    msg['Subject'] = 'Tytuł'
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = to 
+    msg.set_content('Tekst wiadomośći')
+
+
+
+        
+
+    with open(zal, 'rb') as f:  #rb= read bytes
+        file_data = f.read()
+                #file_type = imghdr.what(f.name) # to jeżeli chcemy zdjęcie
+        file_name = f.name
+
+            #msg.add_attachment(file_data, maintype= 'image', subtype = file_type, filename = file_name)   
+            
+    msg.add_attachment(file_data, maintype= 'application', subtype = 'octet-stream', filename = file_name)
+
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+
+        smtp.send_message(msg)
+
+        
+
+send_mail('xxxx@gmail.com',f'plik 1 {s}.xlsx')
+send_mail('yyyy@gmail.com',f'plik 2 {s}.xlsx')
+send_mail('zzzz@gmail.com',f'pilk 3 {s}.xlsx')
+
+
