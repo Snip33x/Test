@@ -7,10 +7,7 @@ myEnvVal.setVar()
 EMAIL_ADDRESS = os.environ.get('EMAIL_USER')
 EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
-
-
 s ='miesiąc' 
-
 
 def send_mail(to,zal):
     msg = EmailMessage()
@@ -18,11 +15,7 @@ def send_mail(to,zal):
     msg['From'] = EMAIL_ADDRESS
     msg['To'] = to 
     msg.set_content('Tekst wiadomośći')
-
-
-
         
-
     with open(zal, 'rb') as f:  #rb= read bytes
         file_data = f.read()
         #file_type = imghdr.what(f.name) # to jeżeli chcemy zdjęcie
