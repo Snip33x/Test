@@ -1,0 +1,44 @@
+import pandas as pd
+import os
+from openpyxl import load_workbook
+import xlsxwriter
+from shutil import copyfile
+
+os.chdir('\\')
+file=('ścieżka+nazwaplikugłównego.xlsx')
+extension = os.path.splitext(file)[1]
+filename = os.path.splitext(file)[0]
+pth=os.path.dirname(file)
+dzien = '23,05'
+
+os.makedirs(f'{dzien}')
+nowyfolder = (f'C:\\tworzenie nowego folderu z podziałem\\{dzien}')
+newfile=os.path.join(nowyfolder,filename+'_2'+extension)
+df=pd.read_excel(file)
+colpick=input('Select Column: ')
+cols=list(set(df[colpick].values))
+
+
+def sendtofile(cols):
+    for i in cols:
+        df[df[colpick] == i].to_excel("{}/{} 23,03.xlsx".format(nowyfolder, i), sheet_name=i, index=False)
+    print('\nCompleted')
+    print('Thanks for using this program.')
+    return
+
+
+
+print('Dane zostaną podzielone na te wartości: {} and create {}  If you are ready to proceed please type "Y" and hit enter. Hit "N" to exit.'.format(', '.join(cols),len(cols)))
+while True:
+    x=input('Ready to Proceed (Y/N): ').lower()
+    if x == 'y':
+        while True:
+                sendtofile(cols)
+                break
+        break
+    elif x=='n':
+        print('\nThanks for using this program.')
+        break
+
+    else: continue
+
