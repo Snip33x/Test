@@ -1,4 +1,3 @@
-# https://exceldashboardschool.com/free-excel-add-ins-tools/
 
 Sub SplitEachWorksheet()
 Dim FPath As String
@@ -13,3 +12,43 @@ Next
 Application.DisplayAlerts = True
 Application.ScreenUpdating = True
 End Sub
+
+--------------------------------------------------
+Sub Split()
+
+Dim wswb As String
+Dim wssh As String
+
+wswb = ActiveWorkbook.Name
+wssh = ActiveSheet.Name
+
+vColumn = InputBox("Please indicate which column you would like to split by", "Column selection")
+
+Columns(vColumn).Copy
+Sheets.Add
+ActiveSheet.Name = "_Summary"
+Range("A1").PasteSpecial
+Columns("A").RemoveDuplicates Columns:=1, Header:=xlYes
+
+vCounter = Range("A" & Rows.Count).End(xlUp).Row
+
+For i = 2 To vCounter
+    vFilter = Sheets("_Summary").Cells(i, 1)
+    Sheets(wssh).Activate
+    ActiveSheet.Columns.AutoFilter field:=Columns(vColumn).Column, Criteria1:=vFilter
+    Cells.Copy
+    Workbooks.Add
+    Range("A1").PasteSpecial
+    If vFilter <> "" Then
+        ActiveWorkbook.SaveAs ThisWorkbook.Path & "\Split\" & vFilter
+    Else
+        ActiveWorkbook.SaveAs ThisWorkbook.Path & "\Split\_Empty"
+    End If
+    ActiveWorkbook.Close
+    Workbooks(wswb).Activate
+Next i
+Sheets("_Summary").Delete
+
+End Sub
+
+# stworzyć folder split
